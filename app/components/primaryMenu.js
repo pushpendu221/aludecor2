@@ -6,7 +6,7 @@ async function getAllMenues() {
   const reData = await Apicall(apiPath);
   const { menus } = await reData;
   return menus.map((post) => ({
-    id: post.id,
+    id: post.ID,
     slug: post.slug, // Ensure the parameter matches the dynamic segment name in the folder
     title: post.title,
     url: post.url,

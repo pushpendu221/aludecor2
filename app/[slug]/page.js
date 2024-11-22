@@ -1,4 +1,5 @@
 import Apicall from "@/app/lib/apicall";
+import { notFound } from "next/navigation";
 
 async function getAllMenues() {
   const apiPath = "/menu?menu_name=primary-menu&api_key=epG7yb9FHzFP8Y3O";
@@ -24,7 +25,6 @@ async function getPostBySlug(slug) {
 // Function to define the paths to pre-render
 export async function generateStaticParams() {
   const fetchMenus = await getAllMenues();
-  //console.log(fetchMenus);
   return fetchMenus.map((post) => ({
     slug: post.slug,
   }));
@@ -38,7 +38,7 @@ export default async function page({ params }) {
   const post = await getPostBySlug(slug); // Destructure params.slug
   //   const post = menus.find((p) => p.id === slug); // Use slug directly
   if (!post) {
-    return <div>Post not found!!!!</div>;
+    notFound();
   }
 
   return (
