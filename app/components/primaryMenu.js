@@ -14,20 +14,23 @@ async function getAllMenues() {
   }));
 }
 
+export function getChildren(getAllChildren) {
+  return (
+    <ul style={{ paddingLeft: "30px" }}>
+      {getAllChildren.map((post) => (
+        <li key={post.id}>
+          <Link href={`/${post.slug}`}>{post.title}</Link>
+          {post.children.length > 0 ? getChildren(post.children) : []}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 // Page component
 
 export default async function PrimaryMenu() {
   const fetchMenus = await getAllMenues();
-  // console.log(fetchMenus);
-  return (
-    <header>
-      <ul>
-        {fetchMenus.map((post) => (
-          <li key={post.id}>
-            <Link href={`/${post.slug}`}>{post.title}</Link>
-          </li>
-        ))}
-      </ul>
-    </header>
-  );
+  //console.log(fetchMenus);
+  return <header>{getChildren(fetchMenus)}</header>;
 }
